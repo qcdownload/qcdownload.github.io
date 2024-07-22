@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qc Public </title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6200EA;
+            --secondary-color: #03DAC6;
+            --background-color: #121212;
+            --surface-color: #1E1E1E;
+            --text-color: #FFFFFF;
+        }
+
+        [data-theme="light"] {
+            --primary-color: #6200EA;
+            --secondary-color: #03DAC6;
+            --background-color: #FFFFFF;
+            --surface-color: #F5F5F5;
+            --text-color: #121212;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        body, a, button {
+            cursor: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 3rem;
+            color: var(--secondary-color);
+            text-shadow: 0 0 10px rgba(3, 218, 198, 0.5);
+        }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .project-card {
+            background-color: var(--surface-color);
+            border-radius: 15px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(3, 218, 198, 0.2);
+        }
+        
+        .project-card h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+        
+        .project-card p {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .download-btn:hover {
+            background-color: var(--secondary-color);
+            box-shadow: 0 5px 15px rgba(3, 218, 198, 0.4);
+        }
+        
+        .snowflake {
+            position: fixed;
+            color: var(--secondary-color);
+            font-size: 20px;
+            user-select: none;
+            z-index: -1;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .welcome-text {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+        }
+
+        .click-to-enter {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .click-to-enter:hover {
+            opacity: 1;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 30px;
+            background-color: var(--secondary-color);
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .view-counter {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .custom-cursor.clickable {
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .music-player button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<body>
+    <div class="custom-cursor" id="customCursor"></div>
+
+    <button class="theme-toggle" id="themeToggle">🌓</button>
+
+    <div class="music-player">
+        <audio id="backgroundMusic" loop>
+            <source src="path/to/your/music.mp3" type="audio/mpeg">
+        </audio>
+        <button id="musicToggle">🔊</button>
+    </div>
+
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-text">
+            <span id="typingText"></span>
+            <span class="cursor"></span>
+        </div>
+        <div class="click-to-enter" id="clickToEnter">Click to Enter</div>
+    </div>
+
+    <div class="container">
+        <h1 data-aos="fade-down">QC Public Downloads | Open Src</h1>
+        <div class="project-grid">
+            <div class="project-card" data-aos="fade-up">
+                <h2>Coming Soon</h2>
+                <p>Coming Soon...</p>
+                <a href="qcdownload.github.io" class="download-btn">Coming Soon...</a>
+            </div>
+            <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                <h2>Coming Soon</h2>
+                <p>Coming Soon...</p>
+                <a href="qcdownload.github.io" class="download-btn">Coming Soon...</a>
+            </div>
+        </div>
+        <div class="view-counter" data-aos="fade-up" data-aos-delay="400">
+            👁️ <span id="viewCount">0</span> views
+        </div>
+    </div>
+
+    <script>
+        AOS.init();
+
+        const cursor = document.getElementById('customCursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function updateCursor() {
+            const dx = mouseX - cursorX;
+            const dy = mouseY - cursorY;
+            
+            cursorX += dx * 0.2;
+            cursorY += dy * 0.2;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(updateCursor);
+        }
+        updateCursor();
+
+        const clickableElements = document.querySelectorAll('a, button, .click-to-enter');
+        clickableElements.forEach(elem => {
+            elem.addEventListener('mouseenter', () => cursor.classList.add('clickable'));
+            elem.addEventListener('mouseleave', () => cursor.classList.remove('clickable'));
+        });
+
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.setAttribute('data-theme', 
+                document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+            );
+        });
+
+        const music = document.getElementById('backgroundMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        let isMuted = true;
+
+        musicToggle.addEventListener('click', () => {
+            if (isMuted) {
+                music.play();
+                musicToggle.textContent = '🔊';
+            } else {
+                music.pause();
+                musicToggle.textContent = '🔇';
+            }
+            isMuted = !isMuted;
+        });
+
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * window.innerWidth + 'px';
+            snowflake.style.animationDuration = Math.random() * 10 + 5 + 's';
+            snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+            snowflake.style.fontSize = Math.random() * 15 + 10 + 'px';
+            
+            document.body.appendChild(snowflake);
+            
+            snowflake.addEventListener('animationend', () => {
+                snowflake.remove();
+            });
+        }
+
+        for (let i = 0; i < 50; i++) {
+            setTimeout(createSnowflake, Math.random() * 5000);
+        }
+
+        setInterval(createSnowflake, 200);
+
+        window.addEventListener('resize', () => {
+            const snowflakes = document.querySelectorAll('.snowflake');
+            const targetCount = Math.floor(window.innerWidth / 20);
+
+            if (snowflakes.length < targetCount) {
+                for (let i = snowflakes.length; i < targetCount; i++) {
+                    createSnowflake();
+                }
+            } else {
+                for (let i = snowflakes.length - 1; i >= targetCount; i--) {
+                    snowflakes[i].remove();
+                }
+            }
+        });
+
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const typingText = document.getElementById('typingText');
+        const clickToEnter = document.getElementById('clickToEnter');
+
+        function typeWriter(text, i = 0) {
+            if (i < text.length) {
+                typingText.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(() => typeWriter(text, i), 100);
+            } else {
+                clickToEnter.style.display = 'block';
+            }
+        }
+
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ip = data.ip;
+                typeWriter(`Welcome ${ip}`);
+            })
+            .catch(error => {
+                console.error('Error fetching IP:', error);
+                typeWriter('Welcome');
+            });
+
+        welcomeScreen.addEventListener('click', () => {
+            welcomeScreen.style.display = 'none';
+        });
+
+        // View counter
+        const viewCountElement = document.getElementById('viewCount');
+        const namespace = 'qcdownload.github.io';
+        const key = 'pageviews';
+
+        fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+            .then(response => response.json())
+            .then(data => {
+                viewCountElement.textContent = data.value;
+            })
+            .catch(error => {
+                console.error('Error updating view count:', error);
+            });
+    </script>
+</body>
+</html>
